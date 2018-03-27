@@ -2,7 +2,10 @@
   "frameworks": {
     "net46":{
       "dependencies": {
-        "Newtonsoft.Json": "11.0.1"
+        "Newtonsoft.Json": "11.0.1",
+		"System.Runtime": "4.0.20-beta-22523",
+		"System.Data.Common": "4.0.0.0-beta-22605",
+		"System.Data.SqlClient": "4.0.0.0-beta-22605"
       }
     }
    }
