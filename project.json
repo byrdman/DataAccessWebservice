@@ -1,0 +1,10 @@
+{
+  "frameworks": {
+    "net46":{
+      "dependencies": {
+        "MySql.Data": "6.10.5",
+        "Newtonsoft.Json": "11.0.1"
+      }
+    }
+   }
+}
