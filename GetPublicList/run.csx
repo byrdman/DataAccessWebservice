@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string eventid = getValue(req, "state");
+    string state = getValue(req, "state");
 
     string strSql = "EXEC dbo.spListPublicRepeaters @state";
 
