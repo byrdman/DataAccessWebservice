@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.GetUsersRepeaters @callsign, @password";
+    string strSql = "EXEC dbo.spGetUsersRepeaters @callsign, @password";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
