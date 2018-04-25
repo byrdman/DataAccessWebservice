@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spLogin @latitude, @longitude, @milesMargin";
+    string strSql = "EXEC dbo.spLogin @lat, @lon, @miles";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -19,9 +19,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
 
-        addParameter(cmd, req, "latitude");
-        addParameter(cmd, req, "longitude");
-        addParameter(cmd, req, "milesMargin");
+        addParameter(cmd, req, "lat");
+        addParameter(cmd, req, "lon");
+        addParameter(cmd, req, "miles");
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
