@@ -5,7 +5,7 @@
         "Newtonsoft.Json": "11.0.1",
 		    "System.Data.Common": "4.3.0",
         "System.Data.SqlClient": "4.4.3",
-        "Microsoft.SqlServer.Types": "11.0.2"
+        "Microsoft.SqlServer.Types": "12.0.5000"
       }
     }
    }
