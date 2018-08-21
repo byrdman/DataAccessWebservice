@@ -56,7 +56,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         addParameter(cmd, req, "weather");
         addParameter(cmd, req, "experimental");
 */
-        addParameters(cmd, req);
+        addParameters(cmd, req, log);
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
@@ -91,7 +91,7 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
     cmd.Parameters.AddWithValue("@" + keyName, val);
 }
 
-public static void addParameters(SqlCommand cmd, HttpRequestMessage req) {
+public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
     
     dynamic data = req.Content.ReadAsAsync<object>();
 
