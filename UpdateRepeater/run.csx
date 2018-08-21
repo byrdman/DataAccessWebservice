@@ -86,5 +86,14 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
 
     if (val == null) { val = ""; }
 
-    cmd.Parameters.AddWithValue("@" + keyName, val);
+    switch (keyName) {
+        case "Latitude":
+        case "Longitude":
+            cmd.Parameters.AddWithValue("@" + keyName, Convert.ToDecimal(val));
+            break;
+        default:
+            cmd.Parameters.AddWithValue("@" + keyName, val);
+            break;
+    }
+    
 }
