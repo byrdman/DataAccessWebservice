@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spUpdateRepeater @callsign, @password, @repeaterID, @type, @trusteeID, @status, @city, @siteName, @outputFreq, @inputFreq, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @analogInputAccess, @analogOutputAccess, @analogWidth, @dstarModule, @dmrColorCode, @dmrId, @dmrNetwork, @p25nac, @nxdnRan, @ysfDsq, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental";
+    string strSql = "EXEC dbo.spUpdateRepeater2 @callsign, @password, @repeaterID, @type, @trusteeID, @status, @city, @siteName, @outputFreq, @inputFreq, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @analogInputAccess, @analogOutputAccess, @analogWidth, @dstarModule, @dmrColorCode, @dmrId, @dmrNetwork, @p25nac, @nxdnRan, @ysfDsq, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -86,17 +86,6 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
 
     if (val == null) { val = ""; }
 
-    switch (keyName) {
-        case "Latitude":
-        case "Longitude":
-        case "OutputFrequency":
-        case "InputFrequency":
-        case "Analog_Width":
-            cmd.Parameters.AddWithValue("@" + keyName, Convert.ToDecimal(val));
-            break;
-        default:
-            cmd.Parameters.AddWithValue("@" + keyName, val);
-            break;
-    }
+    cmd.Parameters.AddWithValue("@" + keyName, val);
     
 }
