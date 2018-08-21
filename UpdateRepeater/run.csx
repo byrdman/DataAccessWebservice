@@ -89,6 +89,9 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
     switch (keyName) {
         case "Latitude":
         case "Longitude":
+        case "OutputFrequency":
+        case "InputFrequency":
+        case "Analog_Width":
             cmd.Parameters.AddWithValue("@" + keyName, Convert.ToDecimal(val));
             break;
         default:
