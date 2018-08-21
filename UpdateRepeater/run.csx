@@ -18,7 +18,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
-
+/* 
         addParameter(cmd, req, "callsign");
         addParameter(cmd, req, "password");
         addParameter(cmd, req, "repeaterid");
@@ -55,6 +55,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         addParameter(cmd, req, "wideArea");
         addParameter(cmd, req, "weather");
         addParameter(cmd, req, "experimental");
+*/
+        addParameters(cmd, req);
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
@@ -87,5 +89,18 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
     if (val == null) { val = ""; }
 
     cmd.Parameters.AddWithValue("@" + keyName, val);
+}
+
+public static void addParameters(SqlCommand cmd, HttpRequestMessage req) {
     
+    dynamic data = req.Content.ReadAsAsync<object>();
+
+    foreach(var key in data.Keys)
+    {
+            // key = data[key]
+            dynamic val = data[key];
+            if (val == null) { val = ""; }
+            log.Info(key + " = " + val);
+            cmd.Parameters.AddWithValue("@" + key, val);
+    }
 }
