@@ -94,7 +94,9 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
 public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
     
     dynamic data = req.Content.ReadAsAsync<object>();
+    log.info(data);
 
+    /* 
     foreach(var key in data.Keys)
     {
             // key = data[key]
@@ -103,4 +105,5 @@ public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWr
             log.Info(key + " = " + val);
             cmd.Parameters.AddWithValue("@" + key, val);
     }
+    */
 }
