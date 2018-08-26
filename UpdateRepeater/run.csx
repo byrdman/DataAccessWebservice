@@ -92,18 +92,28 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
 }
 
 public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
-    
-    dynamic data = req.Content.ReadAsAsync<object>();
-    log.Info(data);
+    // Get request body
+    string data = req.Content.ReadAsStringAsync().Result;
 
-    /* 
-    foreach(var key in data.Keys)
+    using (var reader = new Newtonsoft.Json.JsonTextReader(new StringReader(data)))
     {
-            // key = data[key]
-            dynamic val = data[key];
-            if (val == null) { val = ""; }
-            log.Info(key + " = " + val);
-            cmd.Parameters.AddWithValue("@" + key, val);
+        while (reader.Read())
+        {
+            string propertyName = String.Empty;
+            string propertyValue = String.Empty;
+            if (reader.TokenType.ToString() == "PropertyName") {
+                propertyName = reader.Value.ToString();
+
+                reader.Read();
+                if (reader.Value == null) {
+                    propertyValue = String.Empty;
+                }
+                else {
+                    propertyValue = reader.Value.ToString();
+                }
+
+                cmd.Parameters.AddWithValue("@" + propertyName, propertyValue);
+            }
+        }
     }
-    */
 }
