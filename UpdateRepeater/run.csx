@@ -11,51 +11,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spUpdateRepeater2 @callsign, @password, @repeaterID, @type, @trusteeID, @status, @city, @siteName, @outputFreq, @inputFreq, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @analogInputAccess, @analogOutputAccess, @analogWidth, @dstarModule, @dmrColorCode, @dmrId, @dmrNetwork, @p25nac, @nxdnRan, @ysfDsq, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental";
+    string strSql = "EXEC dbo.spUpdateRepeater2 @callsign, @password, @repeaterID, @type, @RepeaterCallsign, @trusteeID, @status, @city, @siteName, @outputFreq, @inputFreq, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @analogInputAccess, @analogOutputAccess, @analogWidth, @dstarModule, @dmrColorCode, @dmrId, @dmrNetwork, @p25nac, @nxdnRan, @ysfDsq, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
     {
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
-/* 
-        addParameter(cmd, req, "callsign");
-        addParameter(cmd, req, "password");
-        addParameter(cmd, req, "repeaterid");
-        addParameter(cmd, req, "type");
-        addParameter(cmd, req, "trusteeID");
-        addParameter(cmd, req, "status");
-        addParameter(cmd, req, "city");
-        addParameter(cmd, req, "siteName");
-        addParameter(cmd, req, "outputFreq");
-        addParameter(cmd, req, "inputFreq");
-        addParameter(cmd, req, "latitude");
-        addParameter(cmd, req, "longitude");
-        addParameter(cmd, req, "sponsor");
-        addParameter(cmd, req, "amsl");
-        addParameter(cmd, req, "erp");
-        addParameter(cmd, req, "outputPower");
-        addParameter(cmd, req, "antennaGain");
-        addParameter(cmd, req, "antennaHeight");
-        addParameter(cmd, req, "analogInputAccess");
-        addParameter(cmd, req, "analogOutputAccess");
-        addParameter(cmd, req, "analogWidth");
-        addParameter(cmd, req, "dstarModule");
-        addParameter(cmd, req, "dmrColorCode");
-        addParameter(cmd, req, "dmrId");
-        addParameter(cmd, req, "dmrNetwork");
-        addParameter(cmd, req, "p25nac");
-        addParameter(cmd, req, "nxdnRan");
-        addParameter(cmd, req, "ysfDsq");
-        addParameter(cmd, req, "autopatch");
-        addParameter(cmd, req, "emergencyPower");
-        addParameter(cmd, req, "linked");
-        addParameter(cmd, req, "races");
-        addParameter(cmd, req, "ares");
-        addParameter(cmd, req, "wideArea");
-        addParameter(cmd, req, "weather");
-        addParameter(cmd, req, "experimental");
-*/
+
         addParameters(cmd, req, log);
 
         SqlDataReader rdr = cmd.ExecuteReader();
