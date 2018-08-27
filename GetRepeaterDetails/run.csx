@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    DataRow row;
+    DataRow row = new DataRow();
 
     string strSql = "EXEC dbo.spGetRepeaterDetails @callsign, @password, @repeaterid";
 
