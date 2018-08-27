@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    var dataTable = new DataTable();
+    DataRow row = new DataRow();
 
     string strSql = "EXEC dbo.spGetRepeaterDetails @callsign, @password, @repeaterid";
 
@@ -24,13 +24,16 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         addParameter(cmd, req, "repeaterid");
 
         SqlDataReader rdr = cmd.ExecuteReader();
+
+        DataTable dataTable = new DataTable();
         dataTable.Load(rdr);
+        row = dataTable.Rows[0];
 
         rdr.Close();
         Connection.Close();
     }
 
-    string json = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable, Newtonsoft.Json.Formatting.Indented);
+    string json = Newtonsoft.Json.JsonConvert.SerializeObject(row, Newtonsoft.Json.Formatting.Indented);
     return new HttpResponseMessage(HttpStatusCode.OK) 
     {
         Content = new StringContent(json, Encoding.UTF8, "application/json")
