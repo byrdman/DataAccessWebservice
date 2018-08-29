@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spUpdateRepeater2 @callsign, @password, @ID, @type, @Callsign, @trusteeID, @status, @city, @siteName, @OutputFrequency, @InputFrequency, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @Analog_InputAccess, @Analog_OutputAccess, @Analog_Width, @DSTAR_Module, @DMR_ColorCode, @DMR_ID, @DMR_Network, @P25_NAC, @NXDN_RAN, @YSF_DSQ, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental, @changelog";
+    string strSql = "EXEC dbo.spUpdateRepeater3 @callsign, @password, @ID, @type, @Callsign, @trusteeID, @status, @city, @siteName, @OutputFrequency, @InputFrequency, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @Analog_InputAccess, @Analog_OutputAccess, @Analog_Width, @DSTAR_Module, @DMR_ColorCode, @DMR_ID, @DMR_Network, @P25_NAC, @NXDN_RAN, @YSF_DSQ, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental, @changelog";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
