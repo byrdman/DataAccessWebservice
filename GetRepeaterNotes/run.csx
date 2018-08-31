@@ -11,7 +11,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string state = getValue(req, "state");
+    string callsign = getValue(req, "callsign");
+    string password = getValue(req, "password");
+    string repeaterid = getValue(req, "repeaterid");
 
     string strSql = "EXEC dbo.spGetRepeaterNotes @callsign, @password, @repeaterid";
 
@@ -20,9 +22,9 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
-        cmd.Parameters.AddWithValue("@callsign", state);
-        cmd.Parameters.AddWithValue("@password", state);
-        cmd.Parameters.AddWithValue("@repeaterid", state);
+        cmd.Parameters.AddWithValue("@callsign", callsign);
+        cmd.Parameters.AddWithValue("@password", password);
+        cmd.Parameters.AddWithValue("@repeaterid", repeaterid);
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
