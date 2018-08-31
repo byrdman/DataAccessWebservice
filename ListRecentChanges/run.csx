@@ -47,13 +47,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             string Callsign = row["Callsign"].ToString();
             string FullName = row["FullName"].ToString();
             string Email = row["Email"].ToString();
+            decimal Frequency = (decimal)row["Frequency"];
             DateTime ChangeDateTime = DateTime.Parse(row["ChangeDateTime"].ToString());
             string ChangeDescription = row["ChangeDescription"].ToString();
 
             var item = new SyndicationItem()
             {
                 Id = ChangeID,
-                Title = String.Format("{0} in {1}, {2}", RepeaterCallsign, City, State),
+                Title = String.Format("{0} ({3}) in {1}, {2}", RepeaterCallsign, City, State, Frequency.ToString()),
                 Description = ChangeDescription,
                 Published = ChangeDateTime
             };
