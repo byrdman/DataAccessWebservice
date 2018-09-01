@@ -54,9 +54,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             var item = new SyndicationItem()
             {
                 Id = ChangeID,
-                Title = String.Format("{0} ({3}) in {1}, {2}", RepeaterCallsign, City, State, Frequency.ToString()),
-                Description = ChangeDescription,
+                Title = String.Format("{0} ({1}) in {2}, {3}", RepeaterCallsign, Frequency.ToString(), City, State),
+                Description = String.Format("{0} ({1}) made the following changes to the {2} repeater on {3} in {4}, {5}.\r\n{6}", FullName, Callsign, RepeaterCallsign, Frequency, City, State, ChangeDescription),
                 Published = ChangeDateTime
+
             };
 
             item.AddLink(new SyndicationLink(new Uri("https://arkansasrepeatercouncil.org")));
