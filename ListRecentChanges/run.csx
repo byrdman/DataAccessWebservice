@@ -47,14 +47,15 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             string Callsign = row["Callsign"].ToString();
             string FullName = row["FullName"].ToString();
             string Email = row["Email"].ToString();
-            decimal Frequency = (decimal)row["Frequency"];
+            decimal decFrequency = (decimal)row["Frequency"];
+            string Frequency = decFrequency.ToString("G29");
             DateTime ChangeDateTime = DateTime.Parse(row["ChangeDateTime"].ToString());
             string ChangeDescription = row["ChangeDescription"].ToString();
 
             var item = new SyndicationItem()
             {
                 Id = ChangeID,
-                Title = String.Format("{0} ({1}) in {2}, {3}", RepeaterCallsign, Frequency.ToString(), City, State),
+                Title = String.Format("{0} ({1}) in {2}, {3}", RepeaterCallsign, Frequency, City, State),
                 Description = String.Format("{0} ({1}) made the following changes to the {2} repeater on {3} in {4}, {5}.\r\n{6}", FullName, Callsign, RepeaterCallsign, Frequency, City, State, ChangeDescription),
                 Published = ChangeDateTime
 
