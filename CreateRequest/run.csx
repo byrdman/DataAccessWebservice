@@ -20,14 +20,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
 
-        addParameter(cmd, req, "callsign");
-        addParameter(cmd, req, "password");
-        addParameter(cmd, req, "Latitude");
-        addParameter(cmd, req, "Longitude");
-        addParameter(cmd, req, "OutputPower"); 
-        addParameter(cmd, req, "Altitude");
-        addParameter(cmd, req, "AntennaHeight");
-        addParameter(cmd, req, "OutputFrequency");
+        addParameters(cmd, req, log);
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
@@ -63,4 +56,30 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
     if (val == null) { val = ""; }
 
     cmd.Parameters.AddWithValue("@" + keyName, val);
+}
+public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
+    // Get request body
+    string data = req.Content.ReadAsStringAsync().Result;
+
+    using (var reader = new Newtonsoft.Json.JsonTextReader(new StringReader(data)))
+    {
+        while (reader.Read())
+        {
+            string propertyName = String.Empty;
+            string propertyValue = String.Empty;
+            if (reader.TokenType.ToString() == "PropertyName") {
+                propertyName = reader.Value.ToString();
+
+                reader.Read();
+                if (reader.Value == null) {
+                    propertyValue = String.Empty;
+                }
+                else {
+                    propertyValue = reader.Value.ToString();
+                }
+
+                cmd.Parameters.AddWithValue("@" + propertyName, propertyValue);
+            }
+        }
+    }
 }
