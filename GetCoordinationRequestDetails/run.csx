@@ -12,7 +12,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spGetCoordinationRequestWorkflowStep @callsign, @password, @requestid";
+    string strSql = "EXEC dbo.spGetCoordinationRequestDetails @callsign, @password, @requestid";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
