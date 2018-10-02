@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
-// GETUSERDETAILS
+
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     var dataTable = new DataTable();
