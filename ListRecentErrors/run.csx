@@ -41,7 +41,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         foreach(DataRow row in dataTable.Rows)
         { 
             string ErrorID = row["ID"].ToString();
-            string TimeStamp = row["TimeStamp"].ToString();
+            DateTime TimeStamp = DateTime.Parse(row["TimeStamp"].ToString());
             string url = row["url"].ToString();
             string querystring = row["querystring"].ToString();
             string message = row["message"].ToString();
