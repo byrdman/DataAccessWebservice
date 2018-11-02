@@ -57,7 +57,6 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
 public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
     // Get request body
     string data = req.Content.ReadAsStringAsync().Result;
-    log.Info(data);
 
     using (var reader = new Newtonsoft.Json.JsonTextReader(new StringReader(data)))
     {
