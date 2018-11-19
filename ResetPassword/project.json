@@ -1,0 +1,13 @@
+{
+    "frameworks": {
+      "net46":{
+        "dependencies": {
+          "RestSharp":"106.3.1",
+          "Newtonsoft.Json": "11.0.1",
+          "System.Data.Common": "4.3.0",
+          "System.Data.SqlClient": "4.4.3",
+          "microsoft-web-helpers": "2.1.20710.2"
+        }
+      }
+     }
+  }
