@@ -11,16 +11,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string state = getValue(req, "state");
-
-    string strSql = "EXEC dbo.spListPublicRepeaters @state";
+    string strSql = "EXEC dbo.spListPublicRepeaters @state, @frequency, @callsign, @city, @latitude, @longitude, @miles, @pageSize, @pageNumber";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
     {
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
-        cmd.Parameters.AddWithValue("@state", state);
+        addParameters(cmd, req, log);
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
@@ -44,4 +42,41 @@ public static string getValue(HttpRequestMessage req, string keyName) {
     if (rtn == null) { rtn = ""; }
 
     return rtn;
+}
+
+public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string keyName) {
+    string val = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, keyName, true) == 0)
+        .Value;
+
+    if (val == null) { val = ""; }
+
+    cmd.Parameters.AddWithValue("@" + keyName, val);
+}
+
+public static void addParameters(SqlCommand cmd, HttpRequestMessage req, TraceWriter log) {
+    // Get request body
+    string data = req.Content.ReadAsStringAsync().Result;
+
+    using (var reader = new Newtonsoft.Json.JsonTextReader(new StringReader(data)))
+    {
+        while (reader.Read())
+        {
+            string propertyName = String.Empty;
+            string propertyValue = String.Empty;
+            if (reader.TokenType.ToString() == "PropertyName") {
+                propertyName = reader.Value.ToString();
+
+                reader.Read();
+                if (reader.Value == null) {
+                    propertyValue = String.Empty;
+                }
+                else {
+                    propertyValue = reader.Value.ToString();
+                }
+
+                cmd.Parameters.AddWithValue("@" + propertyName, propertyValue);
+            }
+        }
+    }
 }
