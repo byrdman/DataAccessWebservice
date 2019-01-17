@@ -18,7 +18,16 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     {
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
-        addParameters(cmd, req, log);
+
+        addParameter(cmd, req, "state");
+        addParameter(cmd, req, "frequency");
+        addParameter(cmd, req, "callsign");
+        addParameter(cmd, req, "city");
+        addParameter(cmd, req, "latitude");
+        addParameter(cmd, req, "longitude");
+        addParameter(cmd, req, "miles");
+        addParameter(cmd, req, "pageSize");
+        addParameter(cmd, req, "pageNumber");
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
