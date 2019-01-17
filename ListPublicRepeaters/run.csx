@@ -23,11 +23,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         addParameter(cmd, req, "frequency");
         addParameter(cmd, req, "callsign");
         addParameter(cmd, req, "city");
-        addParameter(cmd, req, "latitude");
-        addParameter(cmd, req, "longitude");
-        addParameter(cmd, req, "miles");
-        addParameter(cmd, req, "pageSize");
-        addParameter(cmd, req, "pageNumber");
+        addParameter(cmd, req, "latitude", "39.83");
+        addParameter(cmd, req, "longitude", "-98.583");
+        addParameter(cmd, req, "miles", "2680");
+        addParameter(cmd, req, "pageSize", "1000");
+        addParameter(cmd, req, "pageNumber", "1");
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
@@ -59,6 +59,16 @@ public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string k
         .Value;
 
     if (val == null) { val = ""; }
+
+    cmd.Parameters.AddWithValue("@" + keyName, val);
+}
+
+public static void addParameter(SqlCommand cmd, HttpRequestMessage req, string keyName, string defaultValue) {
+    string val = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, keyName, true) == 0)
+        .Value;
+
+    if (val == null) { val = defaultValue; }
 
     cmd.Parameters.AddWithValue("@" + keyName, val);
 }
