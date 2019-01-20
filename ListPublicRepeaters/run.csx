@@ -11,7 +11,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spListPublicRepeaters @state, @frequency, @callsign, @city, @latitude, @longitude, @miles, @pageSize, @pageNumber";
+    string strSql = "EXEC dbo.spListPublicRepeaters @state, @search, @latitude, @longitude, @miles, @pageSize, @pageNumber";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -20,9 +20,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         SqlCommand cmd = new SqlCommand(strSql, Connection);
 
         addParameter(cmd, req, "state");
-        addParameter(cmd, req, "frequency");
-        addParameter(cmd, req, "callsign");
-        addParameter(cmd, req, "city");
+        addParameter(cmd, req, "search");
         addParameter(cmd, req, "latitude", "39.83");
         addParameter(cmd, req, "longitude", "-98.583");
         addParameter(cmd, req, "miles", "2680");
