@@ -50,7 +50,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             {
                 Id = "arkansasRepeaterCouncil.org-activity" + ActivityID,
                 Title = String.Format("{0} - {1}", TimeStamp, strEvent),
-                Description = String.Format("Activity #{0} {1}\r\nCallsign: {2}\r\nEvent: {3}\r\n\r\nMessage\r\n{4}", 
+                Description = String.Format("Activity #{0} {1}\r\n{4}", 
                 ActivityID, TimeStamp, callsign, strEvent, message),
                 Published = TimeStamp
 
