@@ -29,7 +29,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Connection.Close();
     }
 
-    string json = "";
+    string json = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable, Newtonsoft.Json.Formatting.Indented);
     return new HttpResponseMessage(HttpStatusCode.OK) 
     {
         Content = new StringContent(json, Encoding.UTF8, "application/json")
