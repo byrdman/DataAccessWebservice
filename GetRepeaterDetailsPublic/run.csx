@@ -12,7 +12,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 {
     var dataTable = new DataTable();
 
-    string strSql = "EXEC dbo.spGetRepeaterDetailsPublic @repeaterid";
+    string strSql = "EXEC dbo.spGetRepeaterDetailsPublic @id";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
     using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -20,7 +20,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Connection.Open();
         SqlCommand cmd = new SqlCommand(strSql, Connection);
 
-        addParameter(cmd, req, "repeaterid");
+        addParameter(cmd, req, "id");
 
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
