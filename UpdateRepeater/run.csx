@@ -21,6 +21,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         addParameters(cmd, req, log);
 
+        log.Info("Change log" + cmd.Parameters["changelog"]);
+
         SqlDataReader rdr = cmd.ExecuteReader();
         dataTable.Load(rdr);
 
