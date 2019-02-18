@@ -14,20 +14,25 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string strSql = "EXEC dbo.spUpdateRepeater @callsign, @password, @ID, @type, @RepeaterCallsign, @trusteeID, @status, @city, @siteName, @OutputFrequency, @InputFrequency, @latitude, @longitude, @sponsor, @amsl, @erp, @outputPower, @antennaGain, @antennaHeight, @Analog_InputAccess, @Analog_OutputAccess, @Analog_Width, @DSTAR_Module, @DMR_ColorCode, @DMR_ID, @DMR_Network, @P25_NAC, @NXDN_RAN, @YSF_DSQ, @autopatch, @emergencyPower, @linked, @races, @ares, @wideArea, @weather, @experimental, @changelog, @dateupdated";
 
     var ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
-    using (SqlConnection Connection = new SqlConnection(ConnectionString))
+    try 
     {
-        Connection.Open();
-        SqlCommand cmd = new SqlCommand(strSql, Connection);
+        using (SqlConnection Connection = new SqlConnection(ConnectionString))
+        {
+            Connection.Open();
+            SqlCommand cmd = new SqlCommand(strSql, Connection);
 
-        addParameters(cmd, req, log);
+            addParameters(cmd, req, log);
 
-        log.Info("Change log: " + cmd.Parameters["@changelog"].Value);
+            SqlDataReader rdr = cmd.ExecuteReader();
+            dataTable.Load(rdr);
 
-        SqlDataReader rdr = cmd.ExecuteReader();
-        dataTable.Load(rdr);
-
-        rdr.Close();
-        Connection.Close();
+            rdr.Close();
+            Connection.Close();
+        }
+    }
+    catch(Exception ex) 
+    {
+        log.Error(string.Format("Exception: {0}\r\n\r\n{1}", ex.Message, req.Content.ReadAsStringAsync().Result));
     }
 
     string json = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable, Newtonsoft.Json.Formatting.Indented);
