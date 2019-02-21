@@ -1,3 +1,5 @@
+#load "Utilities.csx"
+
 using System.Net;
 using Microsoft.SyndicationFeed;
 using Microsoft.SyndicationFeed.Rss;
@@ -41,7 +43,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         foreach(DataRow row in dataTable.Rows)
         { 
             string ActivityID = row["ID"].ToString();
-            DateTime TimeStamp = DateTime.Parse(row["TimeStamp"].ToString());
+            DateTime TimeStamp = Utilities.UtcToCst(DateTime.Parse(row["TimeStamp"].ToString()));
             string callsign = row["callsign"].ToString();
             string strEvent = row["event"].ToString();
             string message = row["message"].ToString();
